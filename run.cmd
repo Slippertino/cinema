@@ -6,6 +6,6 @@ pip-compile
 del requirements.in
 pip install -r requirements.txt
 cd data
-.\generate_config .\config.xml.in .\config.xml .\db.db .\assets default.png
+python .\generate_config.py .\config.xml.in .\config.xml .\db.db .\assets default.png
 cd ..
-.\main
+python .\main.py

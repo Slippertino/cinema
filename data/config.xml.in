@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <db connection_string="{}"/>
+    <films assets_directory="{}" default_preview="{}">
+        <film>
+            <name>Адам и Ева</name>
+            <genres>
+                <genre>Фантастика</genre>
+                <genre>Ромком</genre>
+            </genres>
+            <preview name="adam_eva.png"/>
+            <age>12</age>
+            <duration>90</duration>
+        </film>
+        <film>
+            <name>Любовь со второго взгляда</name>
+            <genres>
+                <genre>Ромком</genre>
+            </genres>
+            <preview name="love_from_second_sight.png"/>
+            <age>12</age>
+            <duration>98</duration>
+        </film>
+        <film>
+            <name>Герой наших снов</name>
+            <genres>
+                <genre>Комедия</genre>
+                <genre>Ужасы</genre>
+            </genres>
+            <preview name="hero_of_our_dreams.png"/>
+            <age>18</age>
+            <duration>101</duration>
+        </film>
+        <film>
+            <name>Лед-3</name>
+            <genres>
+                <genre>Мелодрама</genre>
+            </genres>
+            <preview name="ice3.png"/>
+            <age>6</age>
+            <duration>133</duration>
+        </film>
+        <film>
+            <name>Бал сумасшедших</name>
+            <genres>
+                <genre>Исторический</genre>
+                <genre>Триллер</genre>
+                <genre>Драма</genre>
+            </genres>
+            <preview name="mad_womans_ball.png"/>
+            <age>18</age>
+            <duration>122</duration>
+        </film>
+        <film>
+            <name>Кунг-Фу Панда 4</name>
+            <genres>
+                <genre>Анимация</genre>
+            </genres>
+            <preview name="kung_fu_panda4.png"/>
+            <age>12</age>
+            <duration>94</duration>
+        </film>
+    </films>
+    <schedule>
+        <day date='2024-03-25'>
+            <session film="Адам и Ева" time="10:00"/>
+            <session film="Любовь со второго взгляда" time="12:00"/>
+        </day>
+        <day date='2024-03-26'>
+            <session film="Герой наших снов" time="13:20"/>
+            <session film="Лед-3" time="16:50"/>
+        </day>
+        <day date='2024-03-27'>
+            <session film="Бал сумасшедших" time="17:30"/>
+            <session film="Кунг-Фу Панда 4" time="20:00"/>
+        </day>
+    </schedule>
+</config>

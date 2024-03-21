@@ -8,6 +8,7 @@ from repository import Repository
 import datetime
 import sys
 import os
+import base64
 
 CONFIG_PATH = './data/config.xml'
 
@@ -51,7 +52,7 @@ def get_film_preview(id: str):
     film = repo.get_film_by_id(id)
     if not film:
         return fail('unknown film')
-    return ok({'data': bytes(film.preview).hex()})
+    return ok({'data': base64.b64encode(bytes(film.preview)).hex()})
 
 @app.route('/api/film/new', methods=['POST'])
 def create_film():
@@ -113,3 +114,4 @@ if __name__ == "__main__":
     repo = Repository(config.db_path)
     repo.upload_config(config)
     app.run(port=8000)
+    

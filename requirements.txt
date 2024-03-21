@@ -13,6 +13,10 @@ colorama==0.4.6
 defusedxml==0.7.1
     # via untangle
 flask==3.0.2
+    # via
+    #   -r requirements.in
+    #   flask-cors
+flask-cors==4.0.0
     # via -r requirements.in
 greenlet==3.0.3
     # via sqlalchemy

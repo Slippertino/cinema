@@ -2,6 +2,7 @@
 
 from flask import Flask, jsonify
 from flask import request
+from flask_cors import CORS
 from config import Config
 from repository import Repository
 import datetime
@@ -12,6 +13,7 @@ CONFIG_PATH = './data/config.xml'
 
 repo : Repository
 app = Flask(__name__)
+CORS(app)
 
 def ok(nested: dict = {}):
     return jsonify({ **{ 'status': 0 } , **nested })

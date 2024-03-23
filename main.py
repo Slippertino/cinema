@@ -54,7 +54,7 @@ def get_film_preview(id: str):
         return fail('unknown film')
     return ok({'data': base64.b64encode(bytes(film.preview)).hex()})
 
-@app.route('/api/film/new', methods=['POST'])
+@app.route('/api/film/new', methods=['GET', 'POST'])
 def create_film():
     film = request.json
     try:
@@ -68,7 +68,7 @@ def create_film():
         return fail(f'failed to create new film: {e}')
     return ok({'id': id})
 
-@app.route('/api/session/new', methods=['POST'])
+@app.route('/api/session/new', methods=['GET', 'POST'])
 def create_session():
     js = request.json
     try:

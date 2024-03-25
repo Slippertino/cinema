@@ -83,7 +83,7 @@ def create_session():
         return fail(f'failed to create new session: {e}')
     return ok({'id': id})
 
-@app.route('/api/film/<string:id>/preview', methods=['PATCH'])
+@app.route('/api/film/<string:id>/preview', methods=['GET', 'PATCH'])
 def upload_preview(id: str):
     js = request.json
     data = base64.b64decode(bytes.fromhex(js['data']))

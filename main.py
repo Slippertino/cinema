@@ -85,8 +85,10 @@ def create_session():
 
 @app.route('/api/film/<string:id>/preview', methods=['PATCH'])
 def upload_preview(id: str):
+    js = request.json
+    data = base64.b64decode(bytes.fromhex(js['data']))
     try:
-        repo.update_film_preview(id, request.data)
+        repo.update_film_preview(id, data)
     except Exception as e:
         return fail(f'failed to upload preview: {e}')
     return ok()

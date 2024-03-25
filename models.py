@@ -22,7 +22,7 @@ class Film(Base):
     age = Column(Integer, nullable=True, default=12)
     duration = Column(Integer, nullable=False)
     preview = Column(BLOB, nullable=False, default=lambda: Film.default_preview)
-    sessions = relationship('Session', backref=backref('films'))
+    sessions = relationship('Session', backref=backref('films'), cascade='delete')
     genres = relationship('Genre', secondary=film_genre, back_populates='films', cascade='delete')
 
     @validates('age')

@@ -38,6 +38,9 @@ class Repository:
     def get_sessions_by_day(self, date: date) -> list[Session]:
         return self.db.query(Session).filter(Session.date == str(date)).all()
     
+    def get_films_names(self):
+        return [x.name for x in self.db.query(Film.name).all()]
+    
     def add_film(self, name, duration: int, 
         age: int | None = None, 
         preview: bytes | None = None, 
@@ -86,8 +89,15 @@ class Repository:
             session_obj = session
         return str(session_obj.id)
     
-    def remove_film(self, id: str):
+    def remove_film_by_id(self, id: str):
         film = self.get_film_by_id(id)
+        if not film:
+            raise ValueError('unknown film')
+        self.db.delete(film)
+        self.db.commit()
+    
+    def remove_film_by_name(self, name: str):
+        film = self.db.query(Film).filter(Film.name == name).first()
         if not film:
             raise ValueError('unknown film')
         self.db.delete(film)

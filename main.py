@@ -22,6 +22,10 @@ def ok(nested: dict = {}):
 def fail(msg: str, nested: dict = {}):
     return jsonify({**{ 'status': 1, 'message': msg }, **nested })
 
+@app.route('/api/films/all', methods=['GET'])
+def get_films_names():
+    return ok({'names': repo.get_films_names()})
+
 @app.route('/api/films', methods=['GET'])
 def get_films_by_date():
     date = datetime.date.fromisoformat(request.args['date'])
@@ -90,7 +94,16 @@ def upload_preview(id: str):
 @app.route('/api/film/<string:id>', methods=['DELETE'])
 def delete_film_by_id(id: str):
     try:
-        repo.remove_film(id)
+        repo.remove_film_by_id(id)
+    except Exception as e:
+        return fail(str(e))
+    return ok()
+
+@app.route('/api/film', methods=['DELETE'])
+def delete_film_by_name():
+    js = request.json
+    try:
+        repo.remove_film_by_name(js['name'])
     except Exception as e:
         return fail(str(e))
     return ok()

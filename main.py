@@ -14,8 +14,7 @@ CONFIG_PATH = './data/config.xml'
 
 repo : Repository
 app = Flask(__name__)
-app.config['CORS_HEADERS'] = "Content-Type" 
-app.config['CORS_RESOURCES'] = { r"/api/*": {"origins": "*"} }
+CORS(app)
 
 def ok(nested: dict = {}):
     return jsonify({ **{ 'status': 0 } , **nested })
@@ -94,7 +93,7 @@ def upload_preview(id: str):
         return fail(f'failed to upload preview: {e}')
     return ok()
 
-@app.route('/api/film/<string:id>', methods=['DELETE'])
+@app.route('/api/film/<string:id>/remove', methods=['DELETE'])
 def delete_film_by_id(id: str):
     try:
         repo.remove_film_by_id(id)
@@ -102,7 +101,7 @@ def delete_film_by_id(id: str):
         return fail(str(e))
     return ok()
 
-@app.route('/api/film', methods=['DELETE'])
+@app.route('/api/film/remove', methods=['DELETE'])
 def delete_film_by_name():
     js = request.json
     try:
@@ -111,7 +110,7 @@ def delete_film_by_name():
         return fail(str(e))
     return ok()
 
-@app.route('/api/session/<string:id>', methods=['DELETE'])
+@app.route('/api/session/<string:id>/remove', methods=['DELETE'])
 def delete_session_by_id(id: str):
     try:
         repo.remove_session(id)

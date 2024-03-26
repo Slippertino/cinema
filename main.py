@@ -14,7 +14,8 @@ CONFIG_PATH = './data/config.xml'
 
 repo : Repository
 app = Flask(__name__)
-CORS(app)
+app.config['CORS_HEADERS'] = "Content-Type" 
+app.config['CORS_RESOURCES'] = { r"/api/*": {"origins": "*"} }
 
 def ok(nested: dict = {}):
     return jsonify({ **{ 'status': 0 } , **nested })
@@ -56,7 +57,7 @@ def get_film_preview(id: str):
     film = repo.get_film_by_id(id)
     if not film:
         return fail('unknown film')
-    return ok({'data': base64.b64encode(bytes(film.preview)).hex()})
+    return ok({'data': base64.b64encode(bytes(film.preview)).decode()})
 
 @app.route('/api/film/new', methods=['GET', 'POST'])
 def create_film():
@@ -86,7 +87,7 @@ def create_session():
 @app.route('/api/film/<string:id>/preview', methods=['GET', 'PATCH'])
 def upload_preview(id: str):
     js = request.json
-    data = base64.b64decode(bytes.fromhex(js['data']))
+    data = base64.b64decode(str(js['data']).encode())
     try:
         repo.update_film_preview(id, data)
     except Exception as e:

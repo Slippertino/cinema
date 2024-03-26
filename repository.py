@@ -2,13 +2,17 @@ from sqlalchemy import create_engine, ColumnDefault
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.sql import exists
 from models import *
+from PIL import Image
 from config import Config
 from datetime import datetime, time, date
+import io
 import os
 import uuid
 import sqlite3 as sq
 
 class Repository:
+    __normalized_image_width = 100
+
     def __init__(self, db_path) -> None:
         self.db_path = db_path
         engine = create_engine(f"sqlite:///{db_path}")
@@ -21,6 +25,15 @@ class Repository:
         path = os.path.join(dir, name)
         with open(path, 'rb') as image:
             return image.read()
+        
+    @staticmethod
+    def __normalize_image(image: bytes):
+        tw = Repository.__normalized_image_width 
+        im = Image.open(io.BytesIO(image))
+        im = im.resize((tw, (tw * im.height) // im.width))
+        res = io.BytesIO()
+        im.save(res, format='PNG')
+        return res.getvalue()
 
     def __load_genre(self, name):
         genre = self.db.query(Genre).filter(Genre.name == name).first()
@@ -52,7 +65,7 @@ class Repository:
             genres = [self.__load_genre(nm) for nm in genres]
         )
         if age: film.age = age
-        if preview: film.preview = preview
+        if preview: film.preview = Repository.__normalize_image(preview)
         film_obj = self.db.query(Film.id).filter(Film.name == film.name).first()
         if not film_obj:
             film.id = str(uuid.uuid4())
@@ -65,7 +78,7 @@ class Repository:
         film = self.get_film_by_id(id)
         if not film:
             raise ValueError('unknown film')
-        film.preview = preview
+        film.preview = Repository.__normalize_image(preview)
         self.db.commit()
 
     def add_session(self, id: str, time: datetime):
